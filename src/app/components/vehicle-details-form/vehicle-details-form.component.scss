@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Gabarito', sans-serif;
+  color: #000;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #000;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+mat-select, input {
+  font-size: 1em;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  margin-top: 20px;
+  background-color: #0000ff; /* Azul */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}

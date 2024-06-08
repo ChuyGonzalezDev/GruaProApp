@@ -1,0 +1,18 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="over" [opened]="false">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/cotizar" (click)="sidenav.close()">Cotizar Servicio</a>
+      <!-- Agregar otros enlaces aquí según sea necesario -->
+      <a mat-list-item (click)="logout()">Cerrar Sesión</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Grua Pro App</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

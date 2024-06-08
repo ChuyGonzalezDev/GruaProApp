@@ -1,0 +1,24 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+}
+
+h2 {
+  font-family: 'Gabarito', sans-serif;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #0000ff; /* Azul */
+  color: white;
+}
