@@ -19,14 +19,17 @@ export class VehicleDetailsFormComponent implements OnInit {
   zoom = 10;
   origin: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
   destination: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
-  directions: google.maps.DirectionsResult | null = null;
+  directions: google.maps.DirectionsResult | undefined;
+
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private mapDirectionsService: MapDirectionsService
   ) {
+    const today = new Date();
     this.vehicleForm = this.fb.group({
+      fechaServicio: [today, Validators.required],
       numeroCotizacion: [
         { value: this.generateNumeroCotizacion(), disabled: true },
         Validators.required,
