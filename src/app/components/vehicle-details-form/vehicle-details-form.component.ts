@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MapDirectionsService, MapDirectionsResponse } from '@angular/google-maps';
+import {
+  MapDirectionsService,
+  MapDirectionsResponse,
+} from '@angular/google-maps';
 
 @Component({
   selector: 'app-vehicle-details-form',
   templateUrl: './vehicle-details-form.component.html',
-  styleUrls: ['./vehicle-details-form.component.scss']
+  styleUrls: ['./vehicle-details-form.component.scss'],
 })
 export class VehicleDetailsFormComponent implements OnInit {
   vehicleForm: FormGroup;
@@ -24,7 +27,10 @@ export class VehicleDetailsFormComponent implements OnInit {
     private mapDirectionsService: MapDirectionsService
   ) {
     this.vehicleForm = this.fb.group({
-      numeroCotizacion: [{ value: this.generateNumeroCotizacion(), disabled: true }, Validators.required],
+      numeroCotizacion: [
+        { value: this.generateNumeroCotizacion(), disabled: true },
+        Validators.required,
+      ],
       cabina: ['', Validators.required],
       nombreOperador: ['', Validators.required],
       tipoServicio: ['', Validators.required],
@@ -60,7 +66,7 @@ export class VehicleDetailsFormComponent implements OnInit {
       estadoDestino: ['', Validators.required],
       codigoPostalDestino: ['', Validators.required],
       fechaManiobra: ['', Validators.required],
-      horaManiobra: ['', Validators.required]
+      horaManiobra: ['', Validators.required],
     });
   }
 
@@ -91,23 +97,23 @@ export class VehicleDetailsFormComponent implements OnInit {
     const request: google.maps.DirectionsRequest = {
       origin: originAddress,
       destination: destinationAddress,
-      travelMode: google.maps.TravelMode.DRIVING
+      travelMode: google.maps.TravelMode.DRIVING,
     };
 
-    this.mapDirectionsService.route(request).subscribe(response => {
+    this.mapDirectionsService.route(request).subscribe((response) => {
       if (response.result) {
         this.directions = response.result;
         this.origin = {
           lat: response.result.routes[0].legs[0].start_location.lat(),
-          lng: response.result.routes[0].legs[0].start_location.lng()
+          lng: response.result.routes[0].legs[0].start_location.lng(),
         };
         this.destination = {
           lat: response.result.routes[0].legs[0].end_location.lat(),
-          lng: response.result.routes[0].legs[0].end_location.lng()
+          lng: response.result.routes[0].legs[0].end_location.lng(),
         };
         this.center = {
           lat: (this.origin.lat + this.destination.lat) / 2,
-          lng: (this.origin.lng + this.destination.lng) / 2
+          lng: (this.origin.lng + this.destination.lng) / 2,
         };
       }
     });
