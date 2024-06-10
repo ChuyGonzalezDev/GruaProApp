@@ -75,3 +75,45 @@ button {
   width: 100%;
   height: 400px;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.custom-button {
+  background-color: #1e88e5;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  width: 50%; /* Ancho ajustado al 50% de la pantalla */
+
+  &:hover {
+    background-color: #1565c0;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    background-color: #0d47a1;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.4);
+  }
+}
+
+/* Media query para pantallas móviles */
+@media (max-width: 768px) {
+  .custom-button {
+    width: 100%; /* Ancho ajustado al 100% de la pantalla en dispositivos móviles */
+  }
+}
+
+
+

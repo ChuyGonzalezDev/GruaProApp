@@ -13,14 +13,13 @@ import {
 })
 export class VehicleDetailsFormComponent implements OnInit {
   vehicleForm: FormGroup;
-  showExcedentes: boolean = false;
-  showManiobras: boolean = false;
+  showExcedenteCompania = false;
+  showExcedenteTitular = false;
   center: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 }; // Centro del mapa (CDMX)
   zoom = 10;
   origin: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
   destination: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
   directions: google.maps.DirectionsResult | undefined;
-
 
   constructor(
     private fb: FormBuilder,
@@ -37,39 +36,44 @@ export class VehicleDetailsFormComponent implements OnInit {
       cabina: ['', Validators.required],
       nombreOperador: ['', Validators.required],
       tipoServicio: ['', Validators.required],
+      folioCartaPorte: [''],
+      baseOrigen: [false],
+      baseDestino: [false],
       costoKm: ['', Validators.required],
       banderazo: ['', Validators.required],
       casetas: ['', Validators.required],
       casetasSinIva: ['', Validators.required],
       gasolina: ['', Validators.required],
       gasolinaSinIva: ['', Validators.required],
-      tuvoExcedentes: [false],
-      tuvoManiobras: [false],
-      excedenteManiobra: [''],
-      excedenteTramo: [''],
-      pagoExcedentesTitular: [''],
-      kmTitular: [''],
-      costoKmTitular: [''],
-      casetasTitular: [''],
       nombreCliente: ['', Validators.required],
       telefono: ['', Validators.required],
       seguro: ['', Validators.required],
       numeroReporte: ['', Validators.required],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
-      anio: ['', Validators.required],
-      placa: ['', Validators.required],
-      tipoGrua: ['', Validators.required],
-      direccionOrigen: ['', Validators.required],
-      ciudadOrigen: ['', Validators.required],
-      estadoOrigen: ['', Validators.required],
-      codigoPostalOrigen: ['', Validators.required],
-      direccionDestino: ['', Validators.required],
-      ciudadDestino: ['', Validators.required],
-      estadoDestino: ['', Validators.required],
-      codigoPostalDestino: ['', Validators.required],
-      fechaManiobra: ['', Validators.required],
-      horaManiobra: ['', Validators.required],
+      anio: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
+      matricula: ['', Validators.required],
+      color: ['', Validators.required],
+      tipoVehiculo: ['', Validators.required],
+      origen: ['', Validators.required],
+      destino: ['', Validators.required],
+      kilometrosTotales: [{ value: 0, disabled: true }, Validators.required],
+      excedenteManiobra: [''],
+      excedenteTramo: [''],
+      pagoExcedentesTitular: [''],
+      kmTitular: [''],
+      costoKmTitular: [''],
+      casetasTitular: [''],
+      tuvoExcedentes: [false],
+      excedenteCompania: [false],
+      excedenteManiobraCompania: [''],
+      excedenteTramoCompania: [''],
+      excedenteTitular: [false],
+      excedenteTitularField: [''],
+      banderazoTitular: ['', Validators.required],
+      casetasSinIvaTitular: ['', Validators.required],
+      gasolinaTitular: ['', Validators.required],
+      gasolinaSinIvaTitular: ['', Validators.required]
     });
   }
 
@@ -79,11 +83,12 @@ export class VehicleDetailsFormComponent implements OnInit {
     return Math.floor(Math.random() * 100000) + 1;
   }
 
-  toggleExcedentes(): void {
-    this.showExcedentes = this.vehicleForm.get('tuvoExcedentes')?.value;
+  toggleExcedenteCompania() {
+    this.showExcedenteCompania = !this.showExcedenteCompania;
   }
-  toggleManiobras(): void {
-    this.showManiobras = this.vehicleForm.get('tuvoManiobras')?.value;
+
+  toggleExcedenteTitular() {
+    this.showExcedenteTitular = !this.showExcedenteTitular;
   }
 
   onSubmit(): void {

@@ -7,13 +7,13 @@
       <div class="form-row">
         <mat-form-field class="form-field">
           <mat-label>Fecha de Servicio</mat-label>
-          <input matInput [matDatepicker]="datePicker" formControlName="fechaServicio" required>
+          <input matInput [matDatepicker]="datePicker" formControlName="fechaServicio" required />
           <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
           <mat-datepicker #datePicker></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="form-field">
           <mat-label>Número de Servicio</mat-label>
-          <input matInput formControlName="numeroCotizacion" readonly>
+          <input matInput formControlName="numeroCotizacion" readonly />
         </mat-form-field>
         <mat-form-field class="form-field">
           <mat-label>Cabina</mat-label>
@@ -25,24 +25,8 @@
       </div>
     </fieldset>
 
-    <!-- Datos del Titular -->
-    <fieldset>
-      <legend>Datos del Titular</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Nombre del Cliente</mat-label>
-          <input matInput formControlName="nombreCliente" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="telefono" required>
-        </mat-form-field>
-      </div>
-    </fieldset>
-
     <!-- Tipo de Servicio -->
     <fieldset>
-      <legend>Tipo de Servicio</legend>
       <div class="form-row">
         <mat-form-field class="form-field">
           <mat-label>Tipo de Servicio</mat-label>
@@ -54,46 +38,53 @@
             <mat-option value="otro">Otro</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Folio Carta Porte</mat-label>
+          <input matInput formControlName="folioCartaPorte" />
+        </mat-form-field>
       </div>
     </fieldset>
 
-    <!-- Datos de la Ruta -->
+    <!-- Datos del Titular -->
     <fieldset>
-      <legend>Datos de la Ruta</legend>
+      <legend>Datos del Titular</legend>
       <div class="form-row">
         <mat-form-field class="form-field">
-          <mat-label>Dirección de Origen</mat-label>
-          <input matInput formControlName="direccionOrigen" required>
+          <mat-label>Nombre del Cliente</mat-label>
+          <input matInput formControlName="nombreCliente" required />
         </mat-form-field>
         <mat-form-field class="form-field">
-          <mat-label>Ciudad de Origen</mat-label>
-          <input matInput formControlName="ciudadOrigen" required>
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" required />
         </mat-form-field>
+      </div>
+    </fieldset>
+
+    <!-- Ruta Servicio -->
+    <fieldset>
+      <legend>Ruta Servicio</legend>
+      <div class="form-row">
+        <mat-checkbox formControlName="baseOrigen">Base Origen</mat-checkbox>
+      </div>
+      <div class="form-row">
         <mat-form-field class="form-field">
-          <mat-label>Estado de Origen</mat-label>
-          <input matInput formControlName="estadoOrigen" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Código Postal de Origen</mat-label>
-          <input matInput formControlName="codigoPostalOrigen" required>
+          <mat-label>Origen</mat-label>
+          <input matInput formControlName="origen" required>
         </mat-form-field>
       </div>
       <div class="form-row">
         <mat-form-field class="form-field">
-          <mat-label>Dirección de Destino</mat-label>
-          <input matInput formControlName="direccionDestino" required>
+          <mat-label>Destino</mat-label>
+          <input matInput formControlName="destino" required>
         </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-checkbox formControlName="baseDestino">Base Destino</mat-checkbox>
+      </div>
+      <div class="form-row">
         <mat-form-field class="form-field">
-          <mat-label>Ciudad de Destino</mat-label>
-          <input matInput formControlName="ciudadDestino" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Estado de Destino</mat-label>
-          <input matInput formControlName="estadoDestino" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Código Postal de Destino</mat-label>
-          <input matInput formControlName="codigoPostalDestino" required>
+          <mat-label>Kilómetros Totales</mat-label>
+          <input matInput formControlName="kilometrosTotales" readonly>
         </mat-form-field>
       </div>
     </fieldset>
@@ -112,9 +103,9 @@
       </div>
     </fieldset>
 
-    <!-- Datos de Costos -->
+    <!-- Datos de Costos Compañía -->
     <fieldset>
-      <legend>Datos de Costos</legend>
+      <legend>Datos de Costos Compañía</legend>
       <div class="form-row">
         <mat-form-field class="form-field">
           <mat-label>Costo de Kilómetro</mat-label>
@@ -141,6 +132,69 @@
           <input matInput formControlName="gasolinaSinIva" required>
         </mat-form-field>
       </div>
+      <div class="form-row">
+        <mat-checkbox formControlName="excedenteCompania" (change)="toggleExcedenteCompania()">Excedente
+          Compañía</mat-checkbox>
+      </div>
+      <div class="form-row" *ngIf="showExcedenteCompania">
+        <mat-form-field class="form-field">
+          <mat-label>Excedente por Maniobra</mat-label>
+          <input matInput formControlName="excedenteManiobraCompania">
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Excedente por Tramo</mat-label>
+          <input matInput formControlName="excedenteTramoCompania">
+        </mat-form-field>
+      </div>
+    </fieldset>
+
+    <!-- Datos de Costos Titular -->
+    <fieldset>
+      <legend>Datos de Costos Titular</legend>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Costo de Kilómetro</mat-label>
+          <input matInput formControlName="costoKmTitular" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Banderazo</mat-label>
+          <input matInput formControlName="banderazoTitular" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Casetas</mat-label>
+          <input matInput formControlName="casetasTitular" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Casetas Sin Iva</mat-label>
+          <input matInput formControlName="casetasSinIvaTitular" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Gasolina</mat-label>
+          <input matInput formControlName="gasolinaTitular" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Gasolina Sin Iva</mat-label>
+          <input matInput formControlName="gasolinaSinIvaTitular" required>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-checkbox formControlName="excedenteTitular" (change)="toggleExcedenteTitular()">Excedente
+          Titular</mat-checkbox>
+      </div>
+      <div class="form-row" *ngIf="showExcedenteTitular">
+        <mat-form-field class="form-field">
+          <mat-label>Excedentes</mat-label>
+          <input matInput formControlName="excedenteTitularField">
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Kilómetros</mat-label>
+          <input matInput formControlName="kmTitular">
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Costo de Kilómetro</mat-label>
+          <input matInput formControlName="costoKmTitular">
+        </mat-form-field>
+      </div>
     </fieldset>
 
     <!-- Datos de la Compañía -->
@@ -149,34 +203,11 @@
       <div class="form-row">
         <mat-form-field class="form-field">
           <mat-label>Seguro</mat-label>
-          <input matInput formControlName="seguro" required>
+          <input matInput formControlName="seguro" required />
         </mat-form-field>
         <mat-form-field class="form-field">
           <mat-label>Número de Reporte</mat-label>
-          <input matInput formControlName="numeroReporte" required>
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Datos del Vehículo -->
-    <fieldset>
-      <legend>Datos del Vehículo</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Marca</mat-label>
-          <input matInput formControlName="marca" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Modelo</mat-label>
-          <input matInput formControlName="modelo" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Año</mat-label>
-          <input matInput formControlName="anio" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Placa</mat-label>
-          <input matInput formControlName="placa" required>
+          <input matInput formControlName="numeroReporte" required />
         </mat-form-field>
       </div>
     </fieldset>
@@ -202,60 +233,12 @@
       </div>
     </fieldset>
 
-    <!-- Datos de la Maniobra -->
-    <fieldset>
-      <legend>Datos de la Maniobra</legend>
-      <div class="form-row">
-        <mat-checkbox formControlName="tuvoManiobras" (change)="toggleManiobras()">Tuvo Maniobras</mat-checkbox>
-      </div>
-      <div class="form-row" *ngIf="showManiobras">
-        <mat-form-field class="form-field">
-          <mat-label>Fecha de Maniobra</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="fechaManiobra" required>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Hora de Maniobra</mat-label>
-          <input matInput type="time" formControlName="horaManiobra" required>
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Excedentes -->
-    <fieldset>
-      <legend>Excedentes</legend>
-      <div class="form-row">
-        <mat-checkbox formControlName="tuvoExcedentes" (change)="toggleExcedentes()">Tuvo Excedentes</mat-checkbox>
-      </div>
-      <div class="form-row" *ngIf="showExcedentes">
-        <mat-form-field class="form-field">
-          <mat-label>Excedente por Maniobra (Compañía)</mat-label>
-          <input matInput formControlName="excedenteManiobra">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Excedente por Tramo (Compañía)</mat-label>
-          <input matInput formControlName="excedenteTramo">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Pago Excedentes Titular</mat-label>
-          <input matInput formControlName="pagoExcedentesTitular">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>KM Titular</mat-label>
-          <input matInput formControlName="kmTitular">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Costo KM Titular</mat-label>
-          <input matInput formControlName="costoKmTitular">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Casetas Titular</mat-label>
-          <input matInput formControlName="casetasTitular">
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <button mat-raised-button color="primary" type="submit">Obtener Cotización</button>
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" class="custom-button">
+        Obtener Cotización
+      </button>
+    </div>
+    <fieldset></fieldset>
+    <fieldset></fieldset>
   </form>
 </div>
