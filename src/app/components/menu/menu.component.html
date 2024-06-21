@@ -2,6 +2,7 @@
   <mat-sidenav #sidenav mode="over" [opened]="false">
     <mat-nav-list>
       <a mat-list-item routerLink="/cotizar" (click)="sidenav.close()">Cotizar Servicio</a>
+      <a mat-list-item routerLink="/" (click)="sidenav.close()">Lista de Servicio</a>
       <!-- Agregar otros enlaces aquí según sea necesario -->
       <a mat-list-item (click)="logout()">Cerrar Sesión</a>
     </mat-nav-list>
