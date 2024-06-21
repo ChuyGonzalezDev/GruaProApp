@@ -1,16 +1,17 @@
-<div class="login-container">
-  <img src="/src/assets/images/logo.png" alt="Taller y Gruas del Sur" class="logo">
-  <h1>GruasProApp</h1>
-  <h2>Bienvenido</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <mat-form-field class="full-width">
-      <mat-label>Usuario</mat-label>
-      <input matInput formControlName="username" required>
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password" required>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Iniciar Sesión</button>
-  </form>
+<div class="container">
+  <div class="login-container">
+    <img src="/assets/logo.png" alt="Taller y Gruas del Sur" class="logo">
+    <h2>Bienvenido</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" required>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Iniciar Sesión</button>
+    </form>
+  </div>
 </div>

@@ -126,4 +126,8 @@ export class VehicleDetailsFormComponent implements OnInit {
       }
     });
   }
+
+  onCancel(): void {
+    this.router.navigate(['/cotizar']);
+  }
 }

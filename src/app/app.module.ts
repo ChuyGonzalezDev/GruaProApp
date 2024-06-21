@@ -24,6 +24,7 @@ import { QuoteServiceComponent } from './pages/quote-service/quote-service.compo
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { AuthGuard } from './guards/auth.guard';
     GoogleMapsModule,
     AppRoutingModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, provideHttpClient(withFetch())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
