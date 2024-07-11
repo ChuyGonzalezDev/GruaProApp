@@ -117,27 +117,24 @@
     <div class="section">
       <h3>Costos de Servicio Compañía</h3>
       <mat-form-field class="half-width">
-        <mat-label>Banderazo (Default)</mat-label>
+        <mat-label>Banderazo</mat-label>
         <input matInput formControlName="flagRate">
       </mat-form-field>
       <mat-form-field class="half-width">
-        <mat-label>Costo de Kilómetro (Default)</mat-label>
+        <mat-label>Costo de Kilómetro</mat-label>
         <input matInput formControlName="kmRate">
       </mat-form-field>
       <mat-form-field class="half-width">
         <mat-label>Casetas</mat-label>
         <input matInput formControlName="tolls">
       </mat-form-field>
-      <div *ngIf="vehicleForm.get('serviceType')?.value === 'fuel'" class="half-width">
-        <mat-form-field>
-          <mat-label>Gasolina (Servicio de Gasolina)</mat-label>
-          <input matInput formControlName="fuelLiters">
-        </mat-form-field>
-      </div>
+      <mat-form-field *ngIf="vehicleForm.get('serviceType')?.value === 'fuel'" class="half-width">
+        <mat-label>Gasolina</mat-label>
+        <input matInput formControlName="fuelLiters">
+      </mat-form-field>
       <div>
         <mat-checkbox formControlName="companyExcess">Excedente Compañía</mat-checkbox>
       </div>
-      <h3>Excedentes Compañía</h3>
       <mat-form-field class="half-width">
         <mat-label>Excedente por Maniobra</mat-label>
         <input matInput formControlName="maneuverExcess">
@@ -150,7 +147,7 @@
 
     <!-- Costo de Servicio Titular -->
     <div class="section">
-      <h3>Costo de Servicio Titular</h3>
+      <h3>Costos de Servicio Titular</h3>
       <mat-form-field class="half-width">
         <mat-label>Casetas</mat-label>
         <input matInput formControlName="clientTolls">
@@ -159,8 +156,9 @@
         <mat-label>Número de Factura</mat-label>
         <input matInput formControlName="invoiceNumber">
       </mat-form-field>
-      <mat-checkbox formControlName="excessHolder">Excedentes Titular</mat-checkbox>
-      <h3>Excedentes Titular</h3>
+      <div>
+        <mat-checkbox formControlName="excessHolder">Excedentes Titular</mat-checkbox>
+      </div>
       <mat-form-field class="half-width">
         <mat-label>Excedente por Maniobra</mat-label>
         <input matInput formControlName="holderManeuverExcess">
