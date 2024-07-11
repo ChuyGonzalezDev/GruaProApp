@@ -1,242 +1,218 @@
-<div class="container">
-  <h1>Cotización de Grúa</h1>
+<div class="create-service-container">
+  <h2>Crear Servicio</h2>
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-    <!-- Número de Servicio, Fecha de Servicio y Cabina -->
-    <fieldset>
-      <legend>Datos del Servicio</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Fecha de Servicio</mat-label>
-          <input matInput [matDatepicker]="datePicker" formControlName="fechaServicio" required />
-          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-          <mat-datepicker #datePicker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Número de Servicio</mat-label>
-          <input matInput formControlName="numeroCotizacion" readonly />
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Cabina</mat-label>
-          <mat-select formControlName="cabina" required>
-            <mat-option value="cabina1">Cabina 1</mat-option>
-            <mat-option value="cabina2">Cabina 2</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </fieldset>
+    <!-- Datos de Compañía -->
+    <div class="section">
+      <h3>Datos de la Compañía</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Tipo de Cliente</mat-label>
+        <mat-select formControlName="clientType">
+          <mat-option value="company">Compañía</mat-option>
+          <mat-option value="individual">Particular</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Tipo de Servicio</mat-label>
+        <mat-select formControlName="serviceType">
+          <mat-option value="towing">Arrastre</mat-option>
+          <mat-option value="fuel">Entrega de Combustible</mat-option>
+          <mat-option value="jumpstart">Paso de Corriente</mat-option>
+          <mat-option value="tire">Cambio de Llanta</mat-option>
+          <mat-option value="other">Otro</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Cliente</mat-label>
+        <input matInput formControlName="client">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Carta Porte</mat-label>
+        <input matInput formControlName="billOfLading">
+      </mat-form-field>
+    </div>
 
-    <!-- Tipo de Servicio -->
-    <fieldset>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Tipo de Servicio</mat-label>
-          <mat-select formControlName="tipoServicio" required>
-            <mat-option value="arrastre">Servicio de Arrastre</mat-option>
-            <mat-option value="gasolina">Gasolina</mat-option>
-            <mat-option value="corriente">Paso de Corriente</mat-option>
-            <mat-option value="llanta">Cambio de Llanta</mat-option>
-            <mat-option value="otro">Otro</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Folio Carta Porte</mat-label>
-          <input matInput formControlName="folioCartaPorte" />
-        </mat-form-field>
+    <!-- Ruta de Servicio -->
+    <div class="section">
+      <h3>Ruta de Servicio</h3>
+      <mat-list class="full-width">
+        <mat-checkbox formControlName="includeBaseToOrigin">Incluye costo de Base a Origen</mat-checkbox>
+        <mat-checkbox formControlName="includeOriginToBase">Incluye costo de Origen a Base</mat-checkbox>
+      </mat-list>
+      <mat-form-field class="half-width">
+        <mat-label>Origen</mat-label>
+        <input matInput formControlName="origin">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Destino</mat-label>
+        <input matInput formControlName="destination">
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="button" (click)="calculateRoute()">Calcular Ruta</button>
       </div>
-    </fieldset>
+    </div>
+
+    <!-- Detalle de Ruta -->
+    <div class="section">
+      <h3>Detalle de Ruta</h3>
+      <table mat-table class="mat-elevation-z8">
+        <ng-container matColumnDef="segment">
+          <th mat-header-cell *matHeaderCellDef>Ruta</th>
+          <td mat-cell *matCellDef="let element">{{ element.segment }}</td>
+        </ng-container>
+        <ng-container matColumnDef="km">
+          <th mat-header-cell *matHeaderCellDef>KM</th>
+          <td mat-cell *matCellDef="let element">{{ element.km }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="routeDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: routeDisplayedColumns;"></tr>
+      </table>
+      <h4>Total KM (Cálculo): {{ totalKm }}</h4>
+    </div>
+
+    <!-- Mapa de Ruta -->
+    <div class="section">
+      <h3>Mapa de Ruta</h3>
+      <img src="assets/map-example.png" alt="Mapa de Ruta">
+    </div>
+
+    <!-- Datos del Vehículo -->
+    <div class="section">
+      <h3>Datos del Vehículo</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Marca</mat-label>
+        <input matInput formControlName="vehicleMake">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Modelo</mat-label>
+        <input matInput formControlName="vehicleModel">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Año</mat-label>
+        <input matInput formControlName="vehicleYear">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Matrícula</mat-label>
+        <input matInput formControlName="vehicleLicensePlate">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Color</mat-label>
+        <input matInput formControlName="vehicleColor">
+      </mat-form-field>
+    </div>
 
     <!-- Datos del Titular -->
-    <fieldset>
-      <legend>Datos del Titular</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Nombre del Cliente</mat-label>
-          <input matInput formControlName="nombreCliente" required />
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="telefono" required />
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Ruta Servicio -->
-    <fieldset>
-      <legend>Ruta Servicio</legend>
-      <div class="form-row">
-        <mat-checkbox formControlName="baseOrigen">Base Origen</mat-checkbox>
-      </div>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Origen</mat-label>
-          <input matInput formControlName="origen" required>
-        </mat-form-field>
-      </div>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Destino</mat-label>
-          <input matInput formControlName="destino" required>
-        </mat-form-field>
-      </div>
-      <div class="form-row">
-        <mat-checkbox formControlName="baseDestino">Base Destino</mat-checkbox>
-      </div>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Kilómetros Totales</mat-label>
-          <input matInput formControlName="kilometrosTotales" readonly>
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Mapa de la Ruta -->
-    <fieldset>
-      <legend>Mapa de la Ruta</legend>
-      <div class="form-row">
-        <div class="map-container">
-          <google-map height="400px" width="100%" [center]="center" [zoom]="zoom">
-            <map-marker [position]="origin" [label]="'O'"></map-marker>
-            <map-marker [position]="destination" [label]="'D'"></map-marker>
-            <map-directions-renderer *ngIf="directions" [directions]="directions"></map-directions-renderer>
-          </google-map>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- Datos de Costos Compañía -->
-    <fieldset>
-      <legend>Datos de Costos Compañía</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Costo de Kilómetro</mat-label>
-          <input matInput formControlName="costoKm" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Banderazo</mat-label>
-          <input matInput formControlName="banderazo" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Casetas</mat-label>
-          <input matInput formControlName="casetas" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Casetas Sin Iva</mat-label>
-          <input matInput formControlName="casetasSinIva" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Gasolina</mat-label>
-          <input matInput formControlName="gasolina" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Gasolina Sin Iva</mat-label>
-          <input matInput formControlName="gasolinaSinIva" required>
-        </mat-form-field>
-      </div>
-      <div class="form-row">
-        <mat-checkbox formControlName="excedenteCompania" (change)="toggleExcedenteCompania()">Excedente
-          Compañía</mat-checkbox>
-      </div>
-      <div class="form-row" *ngIf="showExcedenteCompania">
-        <mat-form-field class="form-field">
-          <mat-label>Excedente por Maniobra</mat-label>
-          <input matInput formControlName="excedenteManiobraCompania">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Excedente por Tramo</mat-label>
-          <input matInput formControlName="excedenteTramoCompania">
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Datos de Costos Titular -->
-    <fieldset>
-      <legend>Datos de Costos Titular</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Costo de Kilómetro</mat-label>
-          <input matInput formControlName="costoKmTitular" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Banderazo</mat-label>
-          <input matInput formControlName="banderazoTitular" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Casetas</mat-label>
-          <input matInput formControlName="casetasTitular" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Casetas Sin Iva</mat-label>
-          <input matInput formControlName="casetasSinIvaTitular" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Gasolina</mat-label>
-          <input matInput formControlName="gasolinaTitular" required>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Gasolina Sin Iva</mat-label>
-          <input matInput formControlName="gasolinaSinIvaTitular" required>
-        </mat-form-field>
-      </div>
-      <div class="form-row">
-        <mat-checkbox formControlName="excedenteTitular" (change)="toggleExcedenteTitular()">Excedente
-          Titular</mat-checkbox>
-      </div>
-      <div class="form-row" *ngIf="showExcedenteTitular">
-        <mat-form-field class="form-field">
-          <mat-label>Excedentes</mat-label>
-          <input matInput formControlName="excedenteTitularField">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Kilómetros</mat-label>
-          <input matInput formControlName="kmTitular">
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Costo de Kilómetro</mat-label>
-          <input matInput formControlName="costoKmTitular">
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Datos de la Compañía -->
-    <fieldset>
-      <legend>Datos de la Compañía</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Seguro</mat-label>
-          <input matInput formControlName="seguro" required />
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Número de Reporte</mat-label>
-          <input matInput formControlName="numeroReporte" required />
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <!-- Datos del Operador -->
-    <fieldset>
-      <legend>Operador y Grúa</legend>
-      <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Nombre del Operador</mat-label>
-          <mat-select formControlName="nombreOperador" required>
-            <mat-option value="operador1">Operador 1</mat-option>
-            <mat-option value="operador2">Operador 2</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-field">
-          <mat-label>Tipo de Grúa</mat-label>
-          <mat-select formControlName="tipoGrua" required>
-            <mat-option value="grua1">Grúa Tipo A</mat-option>
-            <mat-option value="grua2">Grúa Tipo B</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </fieldset>
-
-    <div class="button-container">
-      <button mat-raised-button color="primary" type="submit" class="custom-button">Obtener Cotización</button>
-      <button mat-raised-button color="warn" type="button" class="custom-button" (click)="onCancel()">Cancelar</button>
+    <div class="section">
+      <h3>Datos del Titular</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Nombre del Cliente</mat-label>
+        <input matInput formControlName="clientName">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="clientPhone">
+      </mat-form-field>
     </div>
-    <fieldset></fieldset>
+
+    <!-- Costos de Servicio -->
+    <div class="section">
+      <h3>Costos de Servicio Compañía</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Banderazo (Default)</mat-label>
+        <input matInput formControlName="flagRate">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Costo de Kilómetro (Default)</mat-label>
+        <input matInput formControlName="kmRate">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Casetas</mat-label>
+        <input matInput formControlName="tolls">
+      </mat-form-field>
+      <div *ngIf="vehicleForm.get('serviceType')?.value === 'fuel'" class="half-width">
+        <mat-form-field>
+          <mat-label>Gasolina (Servicio de Gasolina)</mat-label>
+          <input matInput formControlName="fuelLiters">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-checkbox formControlName="companyExcess">Excedente Compañía</mat-checkbox>
+      </div>
+      <h3>Excedentes Compañía</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Excedente por Maniobra</mat-label>
+        <input matInput formControlName="maneuverExcess">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Excedente por Tramo</mat-label>
+        <input matInput formControlName="sectionExcess">
+      </mat-form-field>
+    </div>
+
+    <!-- Costo de Servicio Titular -->
+    <div class="section">
+      <h3>Costo de Servicio Titular</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Casetas</mat-label>
+        <input matInput formControlName="clientTolls">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Número de Factura</mat-label>
+        <input matInput formControlName="invoiceNumber">
+      </mat-form-field>
+      <mat-checkbox formControlName="excessHolder">Excedentes Titular</mat-checkbox>
+      <h3>Excedentes Titular</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Excedente por Maniobra</mat-label>
+        <input matInput formControlName="holderManeuverExcess">
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Excedente por Tramo</mat-label>
+        <input matInput formControlName="holderSectionExcess">
+      </mat-form-field>
+    </div>
+
+    <!-- Operador y Grúa -->
+    <div class="section">
+      <h3>Operador y Grúa</h3>
+      <mat-form-field class="half-width">
+        <mat-label>Operador</mat-label>
+        <mat-select formControlName="operator">
+          <mat-option value="operator1">Operador 1</mat-option>
+          <mat-option value="operator2">Operador 2</mat-option>
+          <mat-option value="operator3">Operador 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-label>Grúa</mat-label>
+        <mat-select formControlName="crane">
+          <mat-option value="crane1">Grúa 1</mat-option>
+          <mat-option value="crane2">Grúa 2</mat-option>
+          <mat-option value="crane3">Grúa 3</mat-option>
+          <mat-option value="chevy">Chevy</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Número de Reporte -->
+    <div class="section">
+      <h3>Número de Reporte</h3>
+      <mat-form-field class="full-width">
+        <mat-label>Número de Reporte</mat-label>
+        <input matInput formControlName="reportNumber">
+      </mat-form-field>
+    </div>
+
+    <!-- Observaciones -->
+    <div class="section">
+      <h3>Observaciones</h3>
+      <mat-form-field class="full-width">
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput formControlName="observations"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="button-container">
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit">Registrar Servicio</button>
+    </div>
   </form>
 </div>

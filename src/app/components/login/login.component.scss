@@ -17,13 +17,13 @@ body, html {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   font-family: 'Poppins', sans-serif;
 
   .logo {
-    width: 150px;
-    margin-bottom: 20px;
+    width: 180px;
+    margin-bottom: 10px;
   }
 
   h1 {
@@ -34,7 +34,9 @@ body, html {
 
   h2 {
     margin-bottom: 20px;
-    color: #000;
+    color: #163C8A ; /* Azul */
+    text-align: center; /* Alinear a la izquierda */
+    width: 100%; /* Asegurar que tome todo el ancho del contenedor */
   }
 
   .full-width {
@@ -42,12 +44,30 @@ body, html {
     margin-bottom: 20px;
   }
 
-  button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #0000ff; /* Azul */
-    color: white;
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px; /* Agregar margen derecho */
+    }
+
+    button:last-child {
+      margin-right: 0; /* Eliminar margen derecho del último botón */
+    }
+
+    button[color="primary"] {
+      background-color: #163C8A; /* Azul */
+      color: white;
+    }
+
+    button[color="warn"] {
+      background-color: #ff0000; /* Rojo */
+      color: white;
+    }
   }
 
   .forgot-password {

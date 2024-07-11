@@ -1,79 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: ‘Poppins’, sans-serif;
-  color: #000;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-family: ‘Gabarito’, sans-serif;
-  color: #000;
-}
-
-fieldset {
-  border: none;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-legend {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-  font-weight: 500;
-  color: #000;
-}
-
-.form-row {
+.create-service-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f5f5f5;
 
-.form-field {
-  flex: 1;
-  min-width: 200px;
-}
+  h2 {
+    margin-bottom: 20px;
+    color: #163C8A ;
+  }
 
-.full-width {
-  width: 100%;
-}
+  form {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
 
-mat-form-field {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 4px;
-}
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 15px;
+    }
 
-mat-select,
-input {
-  font-size: 1em;
-}
+    .full-width {
+      width: 100%;
+    }
 
-button {
-  width: 100%;
-  padding: 15px;
-  font-size: 16px;
-  margin-top: 20px;
-  background-color: #0000ff;
-  /* Azul */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
-}
+    .half-width {
+      width: 48%;
+      margin-right: 2%;
+    }
 
-.map-container {
-  width: 100%;
-  height: 400px;
+    .half-width:last-child {
+      margin-right: 0;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .route-details, .route-map {
+      width: 100%;
+      margin-top: 20px;
+
+      table {
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  h3 {
+    margin-top: 20px;
+  }
 }
 
 .button-container {
@@ -92,6 +84,11 @@ button {
     margin-right: 0; /* Eliminar margen derecho del último botón */
   }
 
+  button[color="primary"] {
+    background-color: #163C8A; /* Azul */
+    color: white;
+  }
+
   button[color="warn"] {
     background-color: #ff0000; /* Rojo */
     color: white;
@@ -99,7 +96,7 @@ button {
 }
 
 .custom-button {
-  background-color: #0000ff;
+  background-color: #163C8A;
   color: #ffffff;
   padding: 12px 24px;
   font-size: 16px;

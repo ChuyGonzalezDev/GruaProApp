@@ -6,6 +6,11 @@ import {
   MapDirectionsResponse,
 } from '@angular/google-maps';
 
+interface RouteSegment {
+  segment: string;
+  km: number;
+}
+
 @Component({
   selector: 'app-vehicle-details-form',
   templateUrl: './vehicle-details-form.component.html',
@@ -20,6 +25,9 @@ export class VehicleDetailsFormComponent implements OnInit {
   origin: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
   destination: google.maps.LatLngLiteral = { lat: 19.432608, lng: -99.133209 };
   directions: google.maps.DirectionsResult | undefined;
+  routeDataSource: RouteSegment[] = [];
+  routeDisplayedColumns: string[] = ['segment', 'km'];
+  totalKm = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -28,60 +36,41 @@ export class VehicleDetailsFormComponent implements OnInit {
   ) {
     const today = new Date();
     this.vehicleForm = this.fb.group({
-      fechaServicio: [today, Validators.required],
-      numeroCotizacion: [
-        { value: this.generateNumeroCotizacion(), disabled: true },
-        Validators.required,
-      ],
-      cabina: ['', Validators.required],
-      nombreOperador: ['', Validators.required],
-      tipoServicio: ['', Validators.required],
-      folioCartaPorte: [''],
-      baseOrigen: [false],
-      baseDestino: [false],
-      costoKm: ['', Validators.required],
-      banderazo: ['', Validators.required],
-      casetas: ['', Validators.required],
-      casetasSinIva: ['', Validators.required],
-      gasolina: ['', Validators.required],
-      gasolinaSinIva: ['', Validators.required],
-      nombreCliente: ['', Validators.required],
-      telefono: ['', Validators.required],
-      seguro: ['', Validators.required],
-      numeroReporte: ['', Validators.required],
-      marca: ['', Validators.required],
-      modelo: ['', Validators.required],
-      anio: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
-      matricula: ['', Validators.required],
-      color: ['', Validators.required],
-      tipoVehiculo: ['', Validators.required],
-      origen: ['', Validators.required],
-      destino: ['', Validators.required],
-      kilometrosTotales: [{ value: 0, disabled: true }, Validators.required],
-      excedenteManiobra: [''],
-      excedenteTramo: [''],
-      pagoExcedentesTitular: [''],
-      kmTitular: [''],
-      costoKmTitular: [''],
-      casetasTitular: [''],
-      tuvoExcedentes: [false],
-      excedenteCompania: [false],
-      excedenteManiobraCompania: [''],
-      excedenteTramoCompania: [''],
-      excedenteTitular: [false],
-      excedenteTitularField: [''],
-      banderazoTitular: ['', Validators.required],
-      casetasSinIvaTitular: ['', Validators.required],
-      gasolinaTitular: ['', Validators.required],
-      gasolinaSinIvaTitular: ['', Validators.required]
+        clientType: ['', Validators.required],
+        serviceType: ['', Validators.required],
+        client: ['', Validators.required],
+        billOfLading: ['', Validators.required],
+        includeBaseToOrigin: [false],
+        includeOriginToBase: [false],
+        origin: ['', Validators.required],
+        destination: ['', Validators.required],
+        vehicleMake: ['', Validators.required],
+        vehicleModel: ['', Validators.required],
+        vehicleYear: ['', Validators.required],
+        vehicleLicensePlate: ['', Validators.required],
+        vehicleColor: ['', Validators.required],
+        clientName: ['', Validators.required],
+        clientPhone: ['', Validators.required],
+        flagRate: ['', Validators.required],
+        kmRate: ['', Validators.required],
+        tolls: ['', Validators.required],
+        fuelLiters: [''],
+        companyExcess: [false],
+        maneuverExcess: [''],
+        sectionExcess: [''],
+        clientTolls: ['', Validators.required],
+        invoiceNumber: ['', Validators.required],
+        excessHolder: [false],
+        holderManeuverExcess: [''],
+        holderSectionExcess: [''],
+        operator: ['', Validators.required],
+        crane: ['', Validators.required],
+        reportNumber: ['', Validators.required],
+        observations: ['']
     });
   }
 
   ngOnInit(): void {}
-
-  generateNumeroCotizacion(): number {
-    return Math.floor(Math.random() * 100000) + 1;
-  }
 
   toggleExcedenteCompania() {
     this.showExcedenteCompania = !this.showExcedenteCompania;
@@ -91,40 +80,22 @@ export class VehicleDetailsFormComponent implements OnInit {
     this.showExcedenteTitular = !this.showExcedenteTitular;
   }
 
+
+  calculateRoute(): void {
+    // Lógica de cálculo de ruta simulada
+    this.routeDataSource = [
+      { segment: 'Base a Origen', km: 20 },
+      { segment: 'Origen a Destino', km: 60 },
+      { segment: 'Destino a Base', km: 20 }
+    ];
+    this.totalKm = this.routeDataSource.reduce((acc, curr) => acc + curr.km, 0);
+  }
+
   onSubmit(): void {
     if (this.vehicleForm.valid) {
       console.log(this.vehicleForm.value);
       this.calculateRoute();
     }
-  }
-
-  calculateRoute(): void {
-    const originAddress = this.vehicleForm.get('direccionOrigen')?.value;
-    const destinationAddress = this.vehicleForm.get('direccionDestino')?.value;
-
-    const request: google.maps.DirectionsRequest = {
-      origin: originAddress,
-      destination: destinationAddress,
-      travelMode: google.maps.TravelMode.DRIVING,
-    };
-
-    this.mapDirectionsService.route(request).subscribe((response) => {
-      if (response.result) {
-        this.directions = response.result;
-        this.origin = {
-          lat: response.result.routes[0].legs[0].start_location.lat(),
-          lng: response.result.routes[0].legs[0].start_location.lng(),
-        };
-        this.destination = {
-          lat: response.result.routes[0].legs[0].end_location.lat(),
-          lng: response.result.routes[0].legs[0].end_location.lng(),
-        };
-        this.center = {
-          lat: (this.origin.lat + this.destination.lat) / 2,
-          lng: (this.origin.lng + this.destination.lng) / 2,
-        };
-      }
-    });
   }
 
   onCancel(): void {
